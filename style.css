@@ -1,0 +1,327 @@
+/* ========================================================================= */
+/* 1. ПЕРЕМЕННЫЕ И ОБЩИЕ СТИЛИ                                              */
+/* ========================================================================= */
+:root {
+    --tg-theme-bg-color: #12121e;
+    --tg-theme-text-color: #e0e0e0;
+    --tg-theme-secondary-bg-color: #1e1e3b;
+    --tg-theme-button-color: #00bcd4;
+    --tg-theme-button-text-color: #ffffff;
+    --tg-theme-hint-color: #7f8c8d;
+    
+    --sector-red: #e74c3c;
+    --sector-green: #2ecc71;
+    --sector-blue: #3498db;
+    --sector-yellow: #f1c40f;
+    --wheel-border: #ffd700; /* Золотой обод */
+
+    --mine-cell-color: #333355;
+    --mine-cell-hover: #444477;
+    --mine-color: #c0392b;
+    --safe-color: #27ae60;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-top: 10px; /* Небольшой отступ сверху */
+}
+
+/* Применение темы Telegram */
+body.tg-theme button { background-color: var(--tg-theme-button-color); color: var(--tg-theme-button-text-color); }
+body.tg-theme input, body.tg-theme select {
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
+    border: 1px solid var(--tg-theme-hint-color);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.container {
+    max-width: 420px;
+    width: 95%;
+    background: var(--tg-theme-secondary-bg-color);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ========================================================================= */
+/* 2. ШАПКА И НАВИГАЦИЯ                                                    */
+/* ========================================================================= */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+}
+#appTitle {
+    color: var(--wheel-border);
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+.user-info {
+    font-size: 1.1em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.user-info span { color: var(--wheel-border); font-size: 1.1em; }
+.profile-btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.game-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.nav-btn {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-hint-color);
+    font-weight: 600;
+    transition: all 0.2s;
+    border-radius: 0;
+    border-bottom: 3px solid transparent;
+}
+.nav-btn.active {
+    background-color: transparent;
+    color: var(--tg-theme-button-color);
+    border-bottom: 3px solid var(--tg-theme-button-color);
+}
+
+/* ========================================================================= */
+/* 3. ОБЩИЕ ЭЛЕМЕНТЫ ИГРОВОГО ЭКРАНА                                        */
+/* ========================================================================= */
+.view {
+    display: none;
+    padding-top: 10px;
+    text-align: left;
+}
+.view.active { display: block; }
+
+.game-title {
+    color: var(--tg-theme-text-color);
+    font-size: 1.6em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.controls input, .controls button, .controls select {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1em;
+    flex-grow: 1;
+}
+
+.controls button:hover:not(:disabled) {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+}
+.controls button:disabled {
+    background-color: var(--tg-theme-hint-color);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    min-height: 20px;
+}
+.hidden { display: none !important; }
+
+/* ========================================================================= */
+/* 4. СТИЛИ ГЛАВНОГО МЕНЮ                                                  */
+/* ========================================================================= */
+.game-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+.game-card {
+    background: var(--tg-theme-bg-color);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: left;
+}
+.game-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 188, 212, 0.3);
+}
+.game-card h3 { color: var(--tg-theme-button-color); margin: 5px 0; }
+.game-card p { font-size: 0.9em; color: var(--tg-theme-hint-color); }
+
+/* ========================================================================= */
+/* 5. СТИЛИ WHEEL (Колесо Удачи - используем старые стили)                  */
+/* ========================================================================= */
+.wheel-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 30px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.5), 0 0 20px rgba(0, 189, 212, 0.3);
+    border: 12px solid var(--wheel-border);
+    background-color: var(--tg-theme-bg-color);
+}
+.wheel-svg {
+    width: 100%; height: 100%;
+    transform-origin: center center;
+    transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+.wheel-pointer {
+    position: absolute; top: -20px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 30px solid var(--tg-theme-text-color);
+    z-index: 10;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}
+.sector-label { fill: #ffffff; font-size: 16px; font-weight: bold; text-anchor: middle; dominant-baseline: middle; }
+.center-dot { fill: var(--wheel-border); stroke: #333; stroke-width: 2; }
+
+/* ========================================================================= */
+/* 6. СТИЛИ MINES (Минёр)                                                   */
+/* ========================================================================= */
+.mines-controls input { flex-grow: 1; }
+.mines-controls select { flex-grow: 1; }
+
+.mines-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Сетка 5x5 */
+    gap: 5px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 20px;
+    aspect-ratio: 1 / 1; /* Сохраняем квадратную форму */
+    border: 3px solid var(--tg-theme-bg-color);
+    border-radius: 8px;
+}
+.mine-cell {
+    aspect-ratio: 1 / 1;
+    background-color: var(--mine-cell-color);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    user-select: none;
+    color: var(--tg-theme-text-color);
+}
+.mine-cell:not(.revealed):not(.disabled):hover {
+    background-color: var(--mine-cell-hover);
+}
+.mine-cell.revealed.safe { background-color: var(--safe-color); }
+.mine-cell.revealed.mine { background-color: var(--mine-color); }
+.mines-status {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+#minesCashoutButton { width: 100%; margin-bottom: 15px; }
+
+/* ========================================================================= */
+/* 7. СТИЛИ PLINKO (Плинко)                                                 */
+/* ========================================================================= */
+.plinko-board {
+    background: var(--tg-theme-bg-color);
+    height: 250px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Результаты внизу */
+    align-items: center;
+    padding: 10px 5px;
+}
+.plinko-results-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+    border-top: 2px solid var(--tg-theme-secondary-bg-color);
+}
+.plinko-results-row span {
+    font-size: 0.9em;
+    font-weight: 700;
+    color: var(--wheel-border);
+}
+
+/* ========================================================================= */
+/* 8. СТИЛИ PROFILE (Кабинет)                                               */
+/* ========================================================================= */
+.profile-details {
+    background: var(--tg-theme-bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.profile-details p {
+    margin: 8px 0;
+    font-size: 1.1em;
+}
+.profile-details span {
+    font-weight: 700;
+    color: var(--tg-theme-button-color);
+}
+.action-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+}
+.action-btn.primary { background-color: var(--wheel-border); color: #12121e; }
+.action-btn.secondary { background-color: var(--tg-theme-button-color); color: var(--tg-theme-button-text-color); }
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9em;
+    color: var(--tg-theme-hint-color);
+}
+.history-list li {
+    background: var(--tg-theme-bg-color);
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
