@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Casino Hub</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="tg-theme">
+    <div class="container">
+        <header>
+            <h1 id="appTitle">Главное Меню</h1>
+            <div class="user-info">
+                Ваш баланс: <span id="userBalance">1000.00</span> 💎
+                <button id="showProfileButton" class="profile-btn">👤 Кабинет</button>
+            </div>
+        </header>
+
+        <nav class="game-nav">
+            <button data-target="menu" class="nav-btn active">🎲 Игры</button>
+            <button data-target="profile" class="nav-btn">👤 Кабинет</button>
+        </nav>
+
+        <div id="menuView" class="view active">
+            <h2>Выберите игру</h2>
+            <div class="game-list">
+                <div class="game-card" data-game="wheel">
+                    <img src="placeholder_wheel.svg" alt="Колесо">
+                    <h3>Колесо Удачи</h3>
+                    <p>Проверьте свою фортуну на множителях x0 до x3.</p>
+                </div>
+                <div class="game-card" data-game="mines">
+                    <img src="placeholder_mines.svg" alt="Минёр">
+                    <h3>Минёр 💣</h3>
+                    <p>Открывайте клетки, избегая мин, и умножайте ставку.</p>
+                </div>
+                <div class="game-card" data-game="plinko">
+                    <img src="placeholder_plinko.svg" alt="Плинко">
+                    <h3>Плинко 🟢</h3>
+                    <p>Шарик решает вашу судьбу! Множители до x5.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="wheelView" class="view">
+            <h2 class="game-title">Колесо Удачи</h2>
+            <div class="controls">
+                <input type="number" id="wheelBetInput" value="10" min="1" placeholder="Ваша ставка">
+                <button id="spinButton">Вращать Колесо</button>
+            </div>
+            
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <svg id="wheel-svg-element" class="wheel-svg" viewBox="0 0 100 100">
+                    <path d="M50,50 L50,0 A50,50 0 0,1 85.355,14.645 L85.355,14.645 A50,50 0 0,1 100,50 Z" fill="var(--sector-red)"/>
+                    <text class="sector-label" x="75" y="25" transform="rotate(45 75 25)">x2</text>
+                    <path d="M50,50 L85.355,14.645 A50,50 0 0,1 50,100 Z" fill="var(--sector-blue)"/>
+                    <text class="sector-label" x="75" y="75" transform="rotate(135 75 75)">x0.5</text>
+                    <path d="M50,50 L14.645,85.355 A50,50 0 0,1 50,100 Z" fill="var(--sector-green)"/>
+                    <text class="sector-label" x="25" y="75" transform="rotate(225 25 75)">x0</text>
+                    <path d="M50,50 L14.645,85.355 A50,50 0 0,1 50,0 Z" fill="var(--sector-yellow)"/>
+                    <text class="sector-label" x="25" y="25" transform="rotate(315 25 25)">x3</text>
+                    <circle class="center-dot" cx="50" cy="50" r="15" />
+                </svg>
+            </div>
+            <div class="result" id="wheelGameResult"></div>
+        </div>
+
+        <div id="minesView" class="view">
+            <h2 class="game-title">Минёр 💣</h2>
+            <div class="controls mines-controls">
+                <input type="number" id="minesBetInput" value="10" min="1" placeholder="Ставка">
+                <select id="minesCount">
+                    <option value="1">1 Мина (x2.5)</option>
+                    <option value="3" selected>3 Мины (x1.4)</option>
+                    <option value="5">5 Мин (x1.2)</option>
+                </select>
+                <button id="minesStartButton">Начать Игру</button>
+            </div>
+            <div id="minesGrid" class="mines-grid">
+                </div>
+            <div class="mines-status">
+                Открыто: <span id="minesOpenedCount">0</span>. Текущий множитель: <span id="minesMultiplier">1.00</span>x
+            </div>
+            <button id="minesCashoutButton" disabled class="hidden">Забрать Выигрыш</button>
+            <div class="result" id="minesGameResult"></div>
+        </div>
+
+        <div id="plinkoView" class="view">
+            <h2 class="game-title">Плинко 🟢</h2>
+            <div class="controls plinko-controls">
+                <input type="number" id="plinkoBetInput" value="10" min="1" placeholder="Ваша ставка">
+                <select id="plinkoRisk">
+                    <option value="low">Низкий (x0.5 - x2)</option>
+                    <option value="medium" selected>Средний (x0.2 - x5)</option>
+                    <option value="high">Высокий (x0.1 - x10)</option>
+                </select>
+                <button id="plinkoDropButton">Бросить Шарик</button>
+            </div>
+            <div id="plinkoBoard" class="plinko-board">
+                <p>Имитация доски Плинко...</p>
+                <div class="plinko-results-row">
+                    <span>x5</span> <span>x1.5</span> <span>x0.5</span> <span>x0.2</span> <span>x0.5</span> <span>x1.5</span> <span>x5</span>
+                </div>
+            </div>
+            <div class="result" id="plinkoGameResult"></div>
+        </div>
+
+        <div id="profileView" class="view">
+            <h2 class="game-title">Личный Кабинет</h2>
+            <div class="profile-details">
+                <p><strong>ID Пользователя:</strong> <span id="profileUserId">#XXXXXXX</span></p>
+                <p><strong>Текущий Баланс:</strong> <span id="profileUserBalance">1000.00 💎</span></p>
+                <button class="action-btn primary">💰 Пополнить Баланс</button>
+                <button class="action-btn secondary">💸 Вывести Средства</button>
+            </div>
+            
+            <h3>История Игр</h3>
+            <ul id="historyList" class="history-list">
+                <li>*Здесь будет отображаться ваша история ставок*</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
