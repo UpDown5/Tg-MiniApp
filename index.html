@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PUSH UP — Mini App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app">
+    <section id="login" class="view">
+      <div class="card">
+        <h1>PUSH UP</h1>
+        <label class="input">
+          <span>Никнейм</span>
+          <input id="nickname" type="text" maxlength="20" placeholder="Ваш ник" />
+        </label>
+        <button id="startBtn" class="primary">Войти</button>
+        <p class="tiny">Мини-приложение для Telegram</p>
+      </div>
+    </section>
+
+    <section id="appView" class="view hidden">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-dot"></div>
+          <span>PUSH UP</span>
+        </div>
+        <div class="balance">
+          Баланс: <strong id="balance">0</strong>
+          <button id="addDemo" class="ghost">+ демо</button>
+        </div>
+      </header>
+
+      <nav class="tabs">
+        <button data-tab="plinko" class="tab active">Plinko</button>
+        <button data-tab="roulette" class="tab">Roulette</button>
+        <button data-tab="mines" class="tab">Минёр</button>
+      </nav>
+
+      <main class="content">
+        <section id="plinko" class="game">
+          <div class="panel">
+            <label class="input compact">
+              <span>Ставка</span>
+              <input id="plinkoBet" type="number" min="1" step="1" value="10" />
+            </label>
+            <label class="input compact">
+              <span>Ряды</span>
+              <input id="plinkoRows" type="number" min="8" max="14" value="10" />
+            </label>
+            <button id="plinkoPlay" class="primary">Бросить шар</button>
+          </div>
+          <canvas id="plinkoCanvas" width="360" height="500"></canvas>
+          <div class="result" id="plinkoResult"></div>
+        </section>
+
+        <section id="roulette" class="game hidden">
+          <div class="panel">
+            <label class="input compact">
+              <span>Ставка</span>
+              <input id="rouletteBet" type="number" min="1" step="1" value="10" />
+            </label>
+            <select id="rouletteType" class="select">
+              <option value="red">Красное</option>
+              <option value="black">Чёрное</option>
+              <option value="even">Чёт</option>
+              <option value="odd">Нечёт</option>
+              <option value="single">Число</option>
+            </select>
+            <input id="rouletteNumber" class="hidden" type="number" min="0" max="36" placeholder="0–36" />
+            <button id="rouletteSpin" class="primary">Крутить</button>
+          </div>
+          <canvas id="rouletteCanvas" width="360" height="360"></canvas>
+          <div class="result" id="rouletteResult"></div>
+        </section>
+
+        <section id="mines" class="game hidden">
+          <div class="panel">
+            <label class="input compact">
+              <span>Ставка</span>
+              <input id="minesBet" type="number" min="1" step="1" value="10" />
+            </label>
+            <label class="input compact">
+              <span>Мины</span>
+              <input id="minesCount" type="number" min="3" max="15" value="5" />
+            </label>
+            <button id="minesStart" class="primary">Старт</button>
+            <button id="minesCashout" class="ghost" disabled>Забрать</button>
+          </div>
+          <div id="minesGrid" class="grid"></div>
+          <div class="result" id="minesResult"></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "state": "./state.js",
+      "ui": "./ui.js",
+      "games/plinko": "./games/plinko.js",
+      "games/roulette": "./games/roulette.js",
+      "games/mines": "./games/mines.js"
+    }
+  }
+  </script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
