@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casino | Фиолетово-белый стиль</title>
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- ======= Верхняя панель ======= -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <span>Casino<span style="opacity:.7;">.io</span></span>
+      </div>
+
+      <div class="balance-pill">
+        <span data-name id="playerName">Player</span> • 
+        <span data-balance id="balance" data-value="1000">1 000</span> ₽
+      </div>
+    </header>
+
+    <!-- ======= Вкладки ======= -->
+    <nav class="tabs">
+      <div class="tab active" data-tab="roulette">Roulette</div>
+      <div class="tab" data-tab="plinko">Plinko</div>
+      <div class="tab" data-tab="mines">Mines</div>
+    </nav>
+
+    <!-- ======= Панель ROULETTE ======= -->
+    <section data-panel="roulette">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Roulette</div>
+        </div>
+        <div class="panel-body">
+          <canvas id="rouletteCanvas" width="360" height="360"></canvas>
+
+          <div class="hr"></div>
+          <div class="controls">
+            <div class="row">
+              <label class="label">Ставка ₽</label>
+              <input id="rouletteBet" type="number" min="1" step="10" value="100" class="input">
+            </div>
+            <div class="row">
+              <label class="label">Тип ставки</label>
+              <select id="rouletteType" class="input">
+                <option value="number">Номер</option>
+                <option value="red">Фиолетовые (red)</option>
+                <option value="black">Тёмные (black)</option>
+                <option value="even">Чётные</option>
+                <option value="odd">Нечётные</option>
+              </select>
+            </div>
+            <div class="row">
+              <label class="label">Номер (0–36)</label>
+              <input id="rouletteNumber" type="number" min="0" max="36" value="7" class="input">
+            </div>
+            <button id="rouletteSpin" class="btn" style="margin-top:10px;">Крутить</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Панель PLINKO ======= -->
+    <section data-panel="plinko" style="display:none;">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Plinko</div>
+        </div>
+        <div class="panel-body">
+          <canvas id="plinkoCanvas" width="360" height="480" data-house-edge="0.02"></canvas>
+
+          <div id="plinkoMults" style="margin-top:12px;"></div>
+
+          <div class="hr"></div>
+          <div class="controls">
+            <div class="row">
+              <label class="label">Рядов</label>
+              <input id="plinkoRows" type="number" min="6" max="20" step="1" value="12" class="input">
+            </div>
+            <div class="row">
+              <label class="label">Ставка ₽</label>
+              <input id="plinkoBet" type="number" min="1" step="10" value="100" class="input">
+            </div>
+            <button id="plinkoDrop" class="btn" style="margin-top:10px;">Бросить шар</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Панель MINES ======= -->
+    <section data-panel="mines" style="display:none;">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Mines</div>
+        </div>
+        <div class="panel-body">
+          <div id="minesGrid" data-mines-grid></div>
+
+          <div class="hr"></div>
+          <div id="minesInfo" class="subtle">Открой плитку, чтобы начать</div>
+
+          <div class="controls" style="margin-top:12px;">
+            <div class="row">
+              <label class="label">Бомб</label>
+              <input id="minesBombs" type="number" min="1" max="20" step="1" value="5" class="input">
+            </div>
+            <div class="row">
+              <label class="label">Ставка ₽</label>
+              <input id="minesBet" type="number" min="1" step="10" value="100" class="input">
+            </div>
+            <div class="btn-row" style="margin-top:10px;">
+              <button id="minesNew" class="btn">Новый раунд</button>
+              <button id="minesCashout" class="btn ghost">Забрать</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Панель ПРОФИЛЬ / демо ======= -->
+    <section style="margin-top:40px;">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Профиль</div>
+        </div>
+        <div class="panel-body">
+          <div class="row" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input id="nickname" class="input" type="text" value="Player" placeholder="Ваш ник">
+            <button id="saveName" class="btn sm">Сохранить</button>
+            <button data-demo-topup class="btn ghost sm">+1 000 ₽</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
